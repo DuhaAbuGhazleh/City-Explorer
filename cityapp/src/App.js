@@ -12,7 +12,10 @@ export class App extends Component {
       type:"",
       lat:"",
       lon:"",
-      showData:false
+      datetime:"",
+      discription:"",
+      showData:false,
+      weatherData:[]
     }
   }
   handleLocation=(e)=>{
@@ -35,13 +38,21 @@ export class App extends Component {
         lon:responseData.lon,
         lat:responseData.lat,
         type:responseData.type,
+        datetime:responseData.datetime,
+        discription:responseData.description,
+
         map:`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${responseData.lat},${responseData.lon}&zoom=7&size=400x600&format=png.`,
         showData:true
 
       })
      
+    }).then(()=>{
+      axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/data?lat=${this.state.datetime}&lon=${this.state.discription}`)
+      .then(res=>{
+        this.setState({weatherData:res.data})
+      });
     })
-    .catch(err => {this.setState({errorMessage: err.message});})
+   // .catch(err => {this.setState({errorMessage: err.message});})
   }
 
   render() {
@@ -57,7 +68,22 @@ export class App extends Component {
                     lon={this.state.lon}
                     map={this.state.map}
           />
+         
         }
+         {
+            this.state.weatherData.map(item=>{
+              return<>
+              <h2>{item.date}</h2>
+              <h2>{item.lat}</h2>
+              <h2>{item.lon}</h2>
+              <h2>{item.description}</h2>
+              <h2>{item.datetime}</h2>
+
+
+
+              </>
+            })
+          }
         { this.state.errorMessage &&
   <h3 className="error"> { this.state.errorMessage } </h3> }
       </div>
