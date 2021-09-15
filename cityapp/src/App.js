@@ -3,7 +3,7 @@ import Location from './components/location';
 import Searchform from './components/searchform';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Card} from 'react-bootstrap/';
+import { Card } from 'react-bootstrap/';
 import Movies from './components/Movies';
 import WeatherDay from './components/WeatherDay';
 
@@ -46,7 +46,7 @@ import WeatherDay from './components/WeatherDay';
 //   render() {
 //     return (
 //       <div>
-        
+
 //       </div>
 //     )
 //   }
@@ -69,7 +69,7 @@ export class App extends Component {
       //discription:"",
       showData: false,
       weather: [],
-      moviesArr:[]
+      moviesArr: []
     }
   }
   handleLocation = (e) => {
@@ -103,91 +103,105 @@ export class App extends Component {
       })
 
     })
-    .then(() => {
-      axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&city_name=${this.state.city_name}`)
-        .then(res => {
-          this.setState({ weather: res.data })
-        });
-    })
-   .catch(err => {this.setState({errorMessage: err.message});})
+      .then(() => {
+        let locationName = this.state.city_name.split(',')[0];
+        axios.get
+        //(`http://localhost:8000/weather?city_name=${locationName} &key=${process.env.WEATHER_API_KEY}`)
 
-   .then(() => {
-    axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/movies?query=${this.state.city}`)
-      .then(res => {
-        this.setState({  moviesArr: res.data })
-      });
-  })
- .catch(err => {this.setState({errorMessage: err.message});})
+        
+      (`http://${process.env.REACT_APP_BACKEND_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&city_name=${locationName}`)
+          .then(res => {
+            this.setState({ weather: res.data })
+          });
+      })
+      .catch(err => { this.setState({ errorMessage: err.message }); })
+
+      .then(() => {
+        let locationName = this.state.city_name.split(',')[0];
+
+        axios.get
+        //(`http://localhost:8000/movie?query=${locationName}&key=${process.env.MOVIES_API_KEY}`)
+
+        
+        (`http://${process.env.REACT_APP_BACKEND_URL}/movies?city_name=${locationName}`)
+          .then(res => {
+            this.setState({ moviesArr: res.data })
+          });
+      })
+      .catch(err => { this.setState({ errorMessage: err.message }); })
 
   }
 
   render() {
     return (
       <>
-      <div>
-        <h1>Welcome to City explorer</h1>
-        <Searchform handleLocation={this.handleLocation} handleSubmit={this.handleSubmit} />
-        {
-        this.state.weather.map(item => {
-          return <>
-
-            <Card style={{ width: '18rem' }}>
-
-              <Card.Body>
-                <Card.Title>{item.city_name}</Card.Title>
-                <Card.Text>
-                  <h2>{item.lat}</h2>
-                  <h2>{item.lon}</h2>
-                  <h2>{item.description}</h2>
-                  <h2>{item.date}</h2>
-                </Card.Text>
-
-              </Card.Body>
-            </Card>
-
-
-          </>;
-        })
-        }
-
-        {this.state.showData &&
-          <Location city_name={this.state.city_name}
-            type={this.state.type}
-            lat={this.state.lat}
-            lon={this.state.lon}
-            map={this.state.map} />}
-
-        {this.state.errorMessage &&
-          <h3 className="error"> {this.state.errorMessage} </h3>}
-      </div>
-      <div>
-
+        <div>
+          <h1>Welcome to City explorer</h1>
+          <Searchform handleLocation={this.handleLocation} handleSubmit={this.handleSubmit} />
           {
-          
-          this.state.weather.map(value => {
-            return < WeatherDay desc={value.description} date={value.date} />;
-          })
-          
+            this.state.weather.map(item => {
+              return <>
+
+                <Card style={{ width: '18rem' }}>
+
+                  <Card.Body>
+                    <Card.Title>{item.city_name}</Card.Title>
+                    <Card.Text>
+                      <h2>{item.lat}</h2>
+                      <h2>{item.lon}</h2>
+                      <h2>{item.description}</h2>
+                      <h2>{item.date}</h2>
+                    </Card.Text>
+
+                  </Card.Body>
+                </Card>
+
+
+              </>;
+            })
           }
 
-         {/* {
+          {this.state.showData &&
+            <Location city_name={this.state.city_name}
+              type={this.state.type}
+              lat={this.state.lat}
+              lon={this.state.lon}
+              map={this.state.map} />}
+
+          {this.state.errorMessage &&
+            <h3 className="error"> {this.state.errorMessage} </h3>}
+        </div>
+        <div>
+
+          {
+
+            this.state.weather.map(value => {
+              return < WeatherDay desc={value.description} date={value.date} />;
+            })
+
+          }
+
+          {/* {
            
            <Movies moviesMap={this.state.moviesArr}/>
          }
            */}
-          
+
           {
-          
-          this.state.moviesArr.map(value => {
-            return <>
-           <h2>title={value.title}</h2> 
-            <h2>vote_count={value.vote_count} </h2>
-           <h2>image_url={value.image_url}</h2> 
-            <h2> popularity={value.popularity} </h2> 
-            <h2>released_date={value.released_date} </h2>  
-     </>;
-          })
-          
+
+            this.state.moviesArr.map(value => {
+
+              return <Movies
+
+                title={value.title}
+                vote_count={value.vote_count}
+                image_url={value.image_url}
+                popularity={value.popularity}
+                released_date={value.released_date}
+              />
+
+            })
+
           }
         </div></>
     )
