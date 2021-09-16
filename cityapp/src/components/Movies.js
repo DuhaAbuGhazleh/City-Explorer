@@ -1,62 +1,61 @@
+// import React, { Component } from 'react'
+
+// import {
+//     Card
+// } from 'react-bootstrap/'
+
+
+// class Movies extends Component {
+//     render() {
+//         console.log('hello')
+//         console.log('hello', this.props)
+//         return (
+
+
+//             < Card style={{ width: '18rem' }} className='card'>
+//                 <Card.Img variant="top" src={this.props.poster_path} className='cardimage' />
+//                 <Card.Body>
+//                     <Card.Title>Title Of Movie:{this.props.title}</Card.Title>
+
+//                     <Card.Text>
+//                         Date:{this.props.release_date}
+//                     </Card.Text>
+//                     <Card.Text>
+//                         overview: {this.props.overview}
+//                     </Card.Text>
+//                     <Card.Text>
+//                         vote_count: {this.props.vote_count}
+//                     </Card.Text>
+//                     <Card.Text>
+//                         Average Votes: {this.props.average_votes}
+//                     </Card.Text>
+
+
+//                 </Card.Body>
+//             </Card >
+//         )
+//     }
+// }
+
+// export default Movies
+
 import React, { Component } from 'react'
 
-import {
-    Card
-  } from 'react-bootstrap/'
-  
-
-class Movies extends Component {
+export class Movies extends Component {
     render() {
         return (
-            // <div id="movies">
-            //     <img src={this.props.image_url}  alt={this.props.released_date} />
-            //      <br/>
-            //      <p>popularity : {this.props.popularity} </p>
-            //      <p>released_date : {this.props.released_date}</p>
-            //      <p>average_votes : {this.props.average_votes}</p>
-            //      <p>image  : {this.props.backdrop_path}</p>
-            // </div>
-
-
-            // this.props.moviesArr.map(value => {
-              
-            //     return <>
-            //          title={value.title}
-            //     average_votes={value.average_votes} 
-            //     image_url={value.image_url}
-            //       popularity={value.popularity} 
-            //       released_on={value.released_on} 
-            //       total_votes={value.total_votes}
-                
-            //     </>;
-            //   })
-
-
-
-
-< Card style = {{ width: '18rem' }} className='card'>
-<Card.Img variant="top" src={this.props.image_url} className='cardimage'/>
-<Card.Body>
-    <Card.Title>title:{this.props.title}</Card.Title>
-  
-    <Card.Text>
-    popularity:{this.props.popularity}
-    </Card.Text>
-    <Card.Text>
-    total_votes: {this.props.total_votes}
-    </Card.Text>
-    <Card.Text>
-        Released Date: {this.props.released_on}
-    </Card.Text>
-    <Card.Text>
-        Average Votes: {this.props.average_votes}
-    </Card.Text>
-                          
-  
-</Card.Body>
-</Card >
+            <div id="movies">
+                <img src={this.props.poster_path}  alt={this.props.poster_path} />
+                 <br/>
+                 <p>release_date : {this.props.release_date} </p>
+                 <p>title : {this.props.title}</p>
+                 <p>overview: {this.props.overview}</p>
+                 <p>vote_average : {this.props.vote_average}</p>
+                 <p>vote_count: {this.props.vote_count}</p>
+            </div>
         )
     }
 }
 
 export default Movies
+
