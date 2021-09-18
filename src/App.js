@@ -4,9 +4,10 @@ import Searchform from './components/searchform';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card } from 'react-bootstrap/';
-//import Movies from './components/Movies';
+
 import WeatherDay from './components/WeatherDay';
 import Movies from './components/Movies'
+import Restaurant from './components/Restaurant';
 
 export class App extends Component {
 
@@ -21,6 +22,7 @@ export class App extends Component {
       show: false,
       error: '',
       moviesData: [],
+      restaurantData:[],
     }
   }
 
@@ -47,7 +49,8 @@ export class App extends Component {
       ////////////////// get Movies data from backend/////////////////////
 
       let axiosMoviesResponse = await axios.get(`http://localhost:8000/movies?city=${this.state.displayName}`)
-
+      //////////////////get Restaurant data from backend /////////////////////////////
+      let axiosRestaurantResponse= await axios.get(`http://localhost:8000/restaurant?city=${this.state.displayName}`)
 
 
       //////////////////change data after we get it by use (setstate)//////////////////////////
@@ -139,7 +142,8 @@ export class App extends Component {
 
 
 
-        {this.state.weatherData.map(value => {
+        {
+        this.state.weatherData.map(value => {
           return <WeatherDay
             description={value.description}
             date={value.date}
@@ -160,6 +164,24 @@ export class App extends Component {
               />
             })
 
+          }
+        </div>
+
+
+        <div>
+          {
+            this.state.restaurantData.map(value=>{
+              return<Restaurant
+
+              name={value.name}
+              image_url={value.image_url}
+              price={value.price}
+              reting={value.reting}
+              url={value.url}
+           />
+              }
+
+            )
           }
         </div>
 
